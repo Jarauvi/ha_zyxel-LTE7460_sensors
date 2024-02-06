@@ -1,0 +1,57 @@
+rest:
+  - resource: 'https://path-to-modem/cgi-bin/gui.cgi'
+    verify_ssl: false
+    scan_interval: 60
+    method: POST
+    headers: 
+      accept: "application/json"
+      content-type: "application/json"
+    payload: '{"action": "get_wwan_network_internet_status", "args": {"device_id": 1}}'
+    sensor:
+      - name: "Zyxel 4g status"
+        value_template: "OK"
+        json_attributes_path: $.get_wwan_network_internet_status
+        json_attributes:
+          - "errno"
+          - "errmsg"
+          - "state"
+          - "ipv6_state"
+      - name: "Zyxel 4g lte"
+        value_template: "OK"
+        json_attributes_path: $.get_wwan_network_internet_status.lte
+        json_attributes:
+          - "operator"
+          - "mcc"
+          - "mnc"
+          - "type"
+          - "band"
+          - "chnel"
+          - "tac"
+          - "cid"
+          - "pci"
+          - "rsrp"
+          - "rsrq"
+          - "snr"
+          - "cqi"
+          - "rssi"
+  - resource: 'https://path-to-modem/cgi-bin/gui.cgi'
+    verify_ssl: false
+    scan_interval: 60
+    method: POST
+    headers: 
+      accept: "application/json"
+      content-type: "application/json"
+    payload: '{"action": "get_network_connection_status", "args": {}}'
+    sensor:
+      - name: "Zyxel 4g network"
+        value_template: "OK"
+        json_attributes_path: $.get_network_connection_status
+        json_attributes:
+          - "connection_time"
+          - "ipv4_state"
+          - "ipv6_state"
+          - "ip"
+          - "radio_mode"
+          - "roaming"
+          - "signal_strength"
+          - "level"
